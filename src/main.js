@@ -1,6 +1,12 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const token = require("../assets/token.json");
+const fs = require("fs");
+const path = require("path");
+
+
+let cmdMap = new Map();
+
 
 const activity = ["against a fed Zed", "arguably better that Faker","only Riven","like a Wood Division IV","without Flash"];
 
@@ -10,6 +16,29 @@ let playingReset = () => {
         console.log("Failed to set Bot Activity");
     });
 }
+
+
+let cmdReadr = async() => {
+
+    await new Promise((resolve,reject)=>{
+
+        fs.readdir('./commands/',(error,dir)=>{
+            if(!error){
+                dir = dir.filter((f)=>{
+                    return f.endsWith(".js");
+                });
+                
+                dir.forEach(f=>{
+                    cmdMap.set(f.substr(0,f.length-3), require(`./commands/${f}`));
+                });
+                resolve();
+            }
+        });
+
+    });
+    console.log(cmdMap.size);
+    
+};
 
 
 //all Commands handler
@@ -43,6 +72,7 @@ let commandHandler = (msg) => {
 
  client.on('ready', async ()=>{
     console.log("Poro Poro is Online!");
+    cmdReadr();
     playingReset();
     setInterval(playingReset,600000);
     
