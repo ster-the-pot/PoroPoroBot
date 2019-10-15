@@ -15,7 +15,7 @@ class Summoner {
     }
 
     async run(){
-        if(this.args.length!=3){
+        if(this.args.length!=2){
             console.log(this.args.length);
             this.msg.reply('usage: ' + Summoner.command_info()['usage']).then((m)=>m.delete(7000).catch(e=>console.log(e)));
         }
