@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const token = require("../../assets/token.json");
-const CommandInterface = require('../CommandInterface.js');
 
 
 class binfo {
