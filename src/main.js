@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const token = require("../assets/token.json");
 const fs = require("fs");
-const path = require("path");
 
 // Map structure that holds locations of command code
 let cmdMap = new Map();
@@ -46,7 +45,6 @@ let cmdReadr = async() => {
     
 };
 
-
 //all Commands handler
 let commandHandler = async (msg) => {
     if(msg.content.substr(0,2) == token.prefix && !msg.author.bot){
@@ -79,8 +77,6 @@ let commandHandler = async (msg) => {
 client.on('message', (msg) => {
     commandHandler(msg);
 });
-
-
 
 
 client.login(token.token);

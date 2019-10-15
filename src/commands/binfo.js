@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const token = require("../../assets/token.json");
 
 
-class binfo {
+class bInfo {
     static command_info(){
         return {"name":"binfo",
         "usage":"p/binfo",
@@ -15,7 +15,7 @@ class binfo {
         this.msg=msg;
         this.args=args;
     }
-    
+
       async run() {
         let tMem = 0;
         this.client.guilds.forEach(e => {
@@ -27,7 +27,7 @@ class binfo {
         infoE.setColor('#3273a8');
         infoE.title = 'Poro Poro Bot!'
         infoE.addField("Info:", token.info);
-        infoE.addField('Author:', 'Steelo!');
+        infoE.addField('Author:','Steelo!');
         infoE.addField('Active Members:', tMem);
     
         this.msg.channel.send(infoE).then((msg) => {
@@ -40,4 +40,4 @@ class binfo {
 }
 
 
-module.exports.binfo = binfo;
+module.exports.binfo = bInfo;
