@@ -3,14 +3,22 @@ const token = require("../../assets/token.json");
 
 
 class binfo {
-    
-    static info(){
-        return ["binfo","usage: p/binfo","provides basic bot information to the user"];
+    static command_info(){
+        return {"name":"binfo",
+        "usage":"p/binfo",
+        "info":"provides basic bot information to the user"
+        };
     }
 
-      run(client, msg, args) {
+    constructor(client,msg,args){
+        this.client=client;
+        this.msg=msg;
+        this.args=args;
+    }
+    
+      async run() {
         let tMem = 0;
-        client.guilds.forEach(e => {
+        this.client.guilds.forEach(e => {
             tMem += e.memberCount;
         });
         let infoE = new Discord.RichEmbed();
@@ -22,14 +30,14 @@ class binfo {
         infoE.addField('Author:', 'Steelo!');
         infoE.addField('Active Members:', tMem);
     
-        msg.channel.send(infoE).then((msg) => {
+        this.msg.channel.send(infoE).then((msg) => {
             setTimeout
             msg.delete(10000).catch(err => console.log("Error: Invalid Permissions to Delete"));
 
         });
-
     }
 
 }
+
 
 module.exports.binfo = binfo;
