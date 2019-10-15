@@ -46,25 +46,8 @@ let commandHandler = (msg) => {
     if(msg.content.substr(0,2) == token.prefix && !msg.author.bot){
         let args = msg.content.substr(2,msg.content.length).split(" ");
         let cmd = args.shift();
-
-        if(cmd == 'binfo'){
-            let tMem = 0;
-            client.guilds.forEach(e=>{
-                tMem+=e.memberCount;
-            });
-            
-            info = new Discord.RichEmbed();
-            info.setThumbnail('https://pm1.narvii.com/5763/0bc3572cedb7ef976953855aeaf492a8b2b82a67_hq.jpg');
-            info.setURL('https://github.com/ster-the-pot/llfgProject');
-            info.setColor('#3273a8');
-            info.title='Poro Poro Bot!'
-            info.addField("Info:",token.info);
-            info.addField('Author:','Steelo!');
-            info.addField('Active Members:',tMem);
-
-
-            msg.channel.send(info);
-            
+        if(cmdMap.has(cmd)){
+            cmdMap.get(cmd).binfo(client, msg);
         }
        
     }
