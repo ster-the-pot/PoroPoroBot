@@ -28,7 +28,7 @@ const playingReset = () => {
 // async reading and filling on command map (called on startup)
 let cmdReadr = async() => {
     await new Promise((resolve,reject)=>{
-        fs.readdir('./commands/',(error,dir)=>{
+        fs.readdir('./src/commands/',(error,dir)=>{
             if(!error){
                 dir = dir.filter((f)=>{
                     return f.endsWith(".js");
@@ -40,7 +40,7 @@ let cmdReadr = async() => {
                 resolve();
             }
         });
-
+        
     });
     
 };
