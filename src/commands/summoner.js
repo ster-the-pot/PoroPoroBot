@@ -26,6 +26,8 @@ class Summoner {
                     api_key: token.lToken
                 }
             })
+            console.log(r2.data);
+            return r2.data;
         } catch (err) {
             if (err.status == '404') {
                 this.msg.reply(" I couldn't find the summoner rank data you were looking for! Check for typo's and try again!").then((m) => {
@@ -33,7 +35,6 @@ class Summoner {
                 });
             }
         }
-        return JSON.parse(r2.data);
     }
     async fetchSummoner(sum) {
         try {
@@ -42,15 +43,18 @@ class Summoner {
                     api_key: token.lToken
                 }
             });
-
-            return JSON.parse(response.data)
+            console.log(response);
+            return response.data;
         } catch (err) {
-            if (err.status == '404') {
+            if (err.response.status == '404') {
                 this.msg.reply(" I couldn't find the summoner you were looking for! Check for typo's and try again!").then((m) => {
                     m.delete(DEL_TIME).catch(err => console.log("Failed Reply Deletion"));
                 });
+            }else if(err.response.status=='403'){
+                console.log("Key Expired! Update Immediately!");
+            }else{
+                console.log(err);
             }
-            //console.log(err);
         }
     }
 
@@ -62,9 +66,11 @@ class Summoner {
             console.log("Setting Summoner Name is currently unavailable!");
 
         } else if (this.args[0] == 'get') {
-            console.log(this.fetchSummoner(this.args[1]))
-            //sum.setLData = await this.fetchSummonerRank(sum.sData.id);
-            //await sum.displaySummoner();
+            let sData = await this.fetchSummoner(this.args[1]);
+            //console.log(sData);
+            //let LData = await this.fetchSummonerRank(sData.id);
+            let sum = new SummonerData(sData);
+            //sum.displaySummoner();
         }
     }
 }
@@ -86,7 +92,7 @@ class SummonerData{
 
     displaySummoner(){
         let embed = new Discord.RichEmbed();
-        embed.setThumbnail(`http://ddragon.leagueoflegends.com/cdn/9.20.1/img/profileicon/${response.data.profileIconId}.png`)
+        embed.setThumbnail(`http://ddragon.leagueoflegends.com/cdn/9.20.1/img/profileicon/${this.sData.profileIconId}.png`)
         embed.setTitle(this.sData.name);
         embed.addField("Summoner Level:", this.sData.summonerLevel);
         embed.addField("Summoner Rank:", this.lData[0].rank);
