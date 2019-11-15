@@ -1,3 +1,4 @@
 # Don't track
 node_modules/
 assets/token.json
+assets/*_dragon
