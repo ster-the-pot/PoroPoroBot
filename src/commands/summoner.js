@@ -1,11 +1,12 @@
 const Discord = require("discord.js");
-const axios = require("axios");
-const token = require('../../assets/token.json');
+
+
+//include for API client
+const league = require('../../apis/lol/summoner');
 
 const DEL_TIME = 6000;
 
 class Summoner {
-
     static command_info() {
         return {
             "name": "summoner",
@@ -18,44 +19,11 @@ class Summoner {
         this.msg = msg;
         this.args = args;
     }
-
-    async fetchSummonerRank(sumId) {
-        try {
-            let r2 = await axios.get(`https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${sumId}`, {
-                params: {
-                    api_key: token.lToken
-                }
-            })
-            console.log(r2.data);
-            return r2.data;
-        } catch (err) {
-            if (err.status == '404') {
-                this.msg.reply(" I couldn't find the summoner rank data you were looking for! Check for typo's and try again!").then((m) => {
-                    m.delete(DEL_TIME).catch(err => console.log("Failed Reply Deletion"));
-                });
-            }
-        }
+    fetchSummonerRank(sumId) {
+        league.fetchSummoner(sumId)
     }
-    async fetchSummoner(sum) {
-        try {
-            let response = await axios.get(`https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${sum}`, {
-                params: {
-                    api_key: token.lToken
-                }
-            });
-            console.log(response);
-            return response.data;
-        } catch (err) {
-            if (err.response.status == '404') {
-                this.msg.reply(" I couldn't find the summoner you were looking for! Check for typo's and try again!").then((m) => {
-                    m.delete(DEL_TIME).catch(err => console.log("Failed Reply Deletion"));
-                });
-            }else if(err.response.status=='403'){
-                console.log("Key Expired! Update Immediately!");
-            }else{
-                console.log(err);
-            }
-        }
+    fetchSummoner(sumId) {
+        league.fetchSummoner(sumId);
     }
 
     async run() {
@@ -63,6 +31,7 @@ class Summoner {
             this.msg.reply('usage: ' + Summoner.command_info()['usage']).then((m) => m.delete(7000).catch(e => console.log(e)));
         }
         if (this.args[1] == 'set') {
+
             console.log("Setting Summoner Name is currently unavailable!");
 
         } else if (this.args[0] == 'get') {
@@ -74,14 +43,12 @@ class Summoner {
         }
     }
 }
-
 class SummonerData{
     constructor(s,l ) {
         this.sData = s;
         this.lData =l;
 
     }
-
     setLData(l){
         this.lData = l;
     }  
@@ -103,3 +70,4 @@ class SummonerData{
 
 
 module.exports.summoner = Summoner;
+

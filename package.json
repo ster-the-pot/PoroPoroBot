@@ -4,9 +4,15 @@
   "description": "PoroPoro Discord Bot Yarn Package",
   "main": "src/main.js",
   "repository": "https://github.com/ster-the-pot/llfgProject.git",
-  "scripts":{
-     "start":"node src/main.js"
+  "scripts": {
+    "start": "node src/main.js"
   },
   "author": "ster-the-pot",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
 }
