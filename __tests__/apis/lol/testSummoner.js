@@ -16,9 +16,16 @@ describe("testing Query workflow", ()=>{
      test("FetchSum-Rank", (done)=>{
         return league.fetchSummoner("steeelo").then(r=>{
              league.fetchSummonerRank(r.data.id).then(r2=>{
-                console.log(r2.data);
                 done();
             });  
+        })
+    });
+    test("FetchMatchHistory", (done)=>{
+        return league.fetchSummoner("steeelo").then(r=>{
+            league.fetchMatchHistory(r.data.accountId).then(r2=>{
+            });
+            
+
         })
     })
 })

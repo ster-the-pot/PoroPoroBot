@@ -29,7 +29,34 @@ async function fetchSummonerRank(sumId){
     }
 }
 
+async function fetchMatchHistory(encryptedAccountID){
+    try{
+        let response = await axios.get(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${encryptedAccountID}`, {
+            params: {
+                api_key: token.lToken
+            }
+        })
+        
+        return response;
+    }catch(err){
+        return err;
+    }
+}
+// get individual match information (players, items, dmg, etc)
+async function fetchMatchInfo(matchID){
+    try{
+        let response = await axios.get(`https://na1.api.riotgames.com/lol/match/v4/matches/{matchID}`, {
+            params: {
+                api_key: token.lToken
+            }
+        })
+        
+        return response;
+    }catch(err){
+        return err;
+    }
+}
 
 module.exports = {
-    fetchSummonerRank,fetchSummoner
+    fetchSummonerRank,fetchSummoner, fetchMatchHistory
 }
